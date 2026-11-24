@@ -1,0 +1,229 @@
+# M20 – Objective Refactoring Utility
+## Phase 0: Project Discovery and Architecture Planning
+
+You are acting as the Lead Software Architect and Senior Full-Stack Engineer responsible for building a reusable Mainframe Application Modernization Assessment Utility.
+
+We are participating in a hackathon with the challenge titled:
+
+**M20 – A Utility for Objective Refactoring**
+
+The objective is to build a reusable analysis tool that enables developers and architects to evaluate the complexity, readiness, dependencies and risks involved in evolving an application from its current Mainframe environment towards a distributed workload architecture, including Red Hat OpenShift.
+
+### 1. Primary objective
+
+Build an intelligent, evidence-driven Mainframe application assessment platform.
+
+The platform must analyze available application artifacts, reconstruct application dependencies, understand application and business logic, assess migration complexity, evaluate assessment confidence and determine migration readiness.
+
+It must produce explainable, reproducible and evidence-backed assessment results.
+
+This is an assessment accelerator. It is NOT a code conversion, containerization or migration execution tool.
+
+### 2. Mandatory product requirements
+
+The solution must support the following assessment domains:
+
+1. Application and Business Logic
+2. Data Structures
+3. Database and Persistence
+4. Jobs, Batch and Orchestration
+5. Online Transactions and UI
+6. Integration and External Dependencies
+7. Security and Controls
+8. Operational and Nonfunctional Requirements
+
+Potential artifact types include:
+
+- COBOL programs
+- COBOL DB2 programs
+- COBOL CICS programs
+- JCL
+- PROCs
+- Copybooks
+- DB2 DDL and SQL
+- Easytrieve
+- Control cards
+- VSAM definitions
+- IMS artifacts
+- MQ configurations
+- CICS transaction definitions
+- Security configurations
+- Application documentation
+- Operational and scheduling information
+
+Do not assume that every artifact type exists in the supplied repository.
+
+### 3. Three independent assessment measures
+
+The application must calculate and report three separate measures.
+
+**A. Migration Complexity**
+
+Evaluates how difficult it appears to evolve the application towards a distributed workload architecture.
+
+**B. Assessment Confidence**
+
+Evaluates the completeness, reliability, currency and traceability of the evidence supporting the assessment.
+
+**C. Migration Readiness**
+
+Evaluates whether sufficient ownership, documentation, dependency visibility, testability and operational understanding exist to begin detailed migration planning.
+
+Never combine these into one opaque score.
+
+### 4. Evidence-first architecture
+
+Every material finding must be traceable to supporting evidence.
+
+Distinguish between:
+
+- Confirmed facts
+- Inferences
+- Assumptions
+- Unknowns
+- Recommendations
+- Human review requirements
+
+Where possible, record:
+
+- Artifact filename
+- Repository-relative path
+- Artifact type
+- Source line numbers
+- Extracted information
+- Relationship to other artifacts
+- Assessment rule responsible for the finding
+
+Never fabricate dependencies, source statements, metrics or business rules.
+
+### 5. Development constraints
+
+Design the solution to work within the currently available development environment.
+
+Prefer Python standard library capabilities and lightweight dependencies.
+
+Do not assume that arbitrary Python packages can be installed.
+
+Evaluate the feasibility of using:
+
+- Python
+- SQLite
+- HTML
+- CSS
+- JavaScript
+- Existing browser capabilities
+
+Do not introduce heavyweight frameworks or databases without establishing a clear need.
+
+The assessment engine must function independently of an external LLM.
+
+An external AI API may optionally enhance business logic explanations and conversational exploration.
+
+Keep AI integration modular so that it can be enabled or disabled without affecting core analysis.
+
+Never hardcode API keys or credentials.
+
+Do not transmit source code or repository contents to external AI services unless explicitly authorized by the user and organizational policy.
+
+### 6. Reusability and extensibility
+
+The tool must support analyzing multiple Mainframe applications.
+
+New artifact types, parsers and assessment rules must be addable without redesigning the entire application.
+
+The analysis framework must distinguish between:
+
+- Supported artifacts
+- Partially supported artifacts
+- Unsupported artifacts
+- Missing referenced artifacts
+- Synthetic demonstration artifacts
+
+Synthetic source code must never be presented as evidence from the actual application.
+
+### 7. Your current assignment: Discovery only
+
+Do NOT start implementing the application yet.
+
+First inspect the existing workspace and available files.
+
+Identify:
+
+1. Existing project files and directory structure.
+2. Available development languages and runtimes.
+3. Available libraries and dependencies.
+4. Whether the supplied Mainframe repository is present.
+5. The structure of the Mainframe repository.
+6. Available source artifact types and their distribution.
+7. Existing documentation and configuration files.
+8. Potential relationships that can be discovered from the available artifacts.
+9. Missing artifact types and dependencies.
+10. Environmental restrictions that may affect implementation.
+
+Do not modify, delete or overwrite any existing source files during this phase.
+
+Do not assume that a file is a COBOL program solely because of its extension. Inspect its content when appropriate.
+
+### 8. Expected output
+
+Prepare a structured discovery report containing:
+
+**A. Environment Assessment**
+- Available runtime and tools.
+- Available libraries.
+- Development constraints.
+
+**B. Repository Inventory**
+- Total files.
+- Artifact types discovered.
+- File counts by type.
+- Representative filenames.
+- Missing artifact types.
+
+**C. Initial Dependency Observations**
+- Identifiable program calls.
+- JCL execution relationships.
+- PROC references.
+- Copybook references.
+- DB2 table references.
+- File and dataset relationships.
+- Unresolved references.
+
+Only report relationships supported by actual repository evidence.
+
+**D. Proposed Architecture**
+- Application modules.
+- Artifact analyzer framework.
+- Metadata storage design.
+- Relationship graph design.
+- Assessment engine.
+- Evidence management.
+- Frontend and reporting.
+
+**E. Implementation Roadmap**
+
+Propose incremental development milestones with:
+- Features.
+- Expected outputs.
+- Dependencies.
+- Validation criteria.
+
+**F. Risks and Limitations**
+
+Identify unsupported artifacts, incomplete inputs, parsing challenges, security concerns and environmental restrictions.
+
+### 9. Important instruction
+
+Think like an enterprise software architect.
+
+Do not rush into code generation.
+
+Do not invent repository contents.
+
+Do not claim an artifact is missing until you have inspected the repository.
+
+Do not make migration recommendations based on incomplete information.
+
+The objective of this phase is to establish an accurate understanding of the development environment and the actual sample application before implementation begins.
+
+At the end, provide your findings and wait for further instructions.
