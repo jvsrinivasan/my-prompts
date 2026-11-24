@@ -1,0 +1,426 @@
+M20 – Phase 1: Artifact Intelligence Engine
+
+You have completed Phase 0: Project Discovery and Architecture Planning.
+
+We are now moving to Phase 1.
+
+Act as a Senior Mainframe Application Analysis Engineer and Python Architect.
+
+1. Project context
+
+The objective is to build a reusable Mainframe Application Modernization Assessment Utility for the M20 hackathon.
+
+The organizer-provided Mainframe repository has been inspected.
+
+The discovery phase identified 2,042 artifacts:
+
+Artifact type| Count
+COBOL| 249
+JCL Jobs| 631
+JCL Procedures| 219
+Control Cards| 714
+DCLGEN / SQL Includes| 96
+Copybooks| 86
+Assembler| 4
+NDM Controls / Processes| 18
+Linkcards| 2
+Total| 2,042
+
+Discovery also confirmed:
+
+- 631 valid JCL jobs.
+- 219 valid procedures.
+- 562 DB2 RUN PROGRAM relationships identified in control cards.
+- 560 of those relationships resolve to supplied COBOL source.
+- 2 relationships remain unresolved.
+
+Important repository evidence gaps:
+
+- Formal scheduler calendars.
+- Execution frequencies.
+- Production processing volumes.
+- SLAs.
+- Test artifacts.
+- Architecture documentation.
+
+Treat these as repository-specific findings, not assumptions about all Mainframe applications.
+
+Do not generate synthetic source code during this phase.
+
+Do not modify the original repository artifacts.
+
+2. Phase 1 objective
+
+Develop a reusable Artifact Intelligence Engine that:
+
+1. Discovers all available application artifacts.
+2. Classifies artifacts by type.
+3. Extracts structured metadata.
+4. Identifies components and references.
+5. Establishes relationships between artifacts wherever evidence supports them.
+6. Identifies unresolved references.
+7. Stores findings in a structured metadata repository.
+8. Preserves source-level evidence and traceability.
+9. Supports future extension to additional Mainframe artifact types.
+
+The engine must be reusable across different Mainframe applications.
+
+3. Artifact analyzer architecture
+
+Implement a modular analyzer architecture.
+
+Each artifact type should have a dedicated analyzer or analyzer module.
+
+The framework should support:
+
+- COBOL analyzer.
+- JCL analyzer.
+- PROC analyzer.
+- Control card analyzer.
+- Copybook analyzer.
+- DCLGEN / SQL analyzer.
+- Assembler analyzer.
+- NDM analyzer.
+- Linkcard analyzer.
+
+Use a common analyzer interface.
+
+Each analyzer should return structured results containing:
+
+- Artifact identification.
+- Discovered components.
+- Extracted metadata.
+- Relationships.
+- Evidence references.
+- Parsing warnings.
+- Unresolved references.
+- Analysis status.
+
+An analyzer must not silently ignore statements it cannot interpret.
+
+Record unsupported syntax and parsing limitations.
+
+Use the simplest reliable approach available within the development environment. Do not introduce unnecessary third-party dependencies.
+
+4. Artifact-specific analysis requirements
+
+A. COBOL
+
+Identify:
+
+- Program ID.
+- CALL statements.
+- Static and dynamic program calls where detectable.
+- COPY statements.
+- SQL INCLUDE statements.
+- EXEC SQL blocks.
+- DB2 table references.
+- SELECT, INSERT, UPDATE and DELETE operations.
+- Cursor declarations and operations.
+- File declarations.
+- READ, WRITE, REWRITE and DELETE file operations.
+- External program dependencies.
+- Paragraphs and sections.
+- Important business-rule conditions where deterministically extractable.
+
+Distinguish static references from dynamically resolved references.
+
+Do not assume a CALL target can be resolved if its value is determined at runtime.
+
+B. JCL
+
+Identify:
+
+- JOB statements.
+- EXEC statements.
+- PROC invocations.
+- PGM references.
+- DD statements.
+- Dataset references.
+- Input and output datasets.
+- DISP parameters.
+- COND parameters.
+- JOBLIB and STEPLIB.
+- Temporary datasets.
+- Referenced procedures.
+- Referenced programs.
+- Control card datasets.
+
+Account for continuation statements and common JCL syntax variations.
+
+C. Procedures
+
+Identify:
+
+- PROC and PEND.
+- Procedure parameters.
+- EXEC statements.
+- DD statements.
+- Referenced programs.
+- Dataset references.
+- Nested procedure references where supported.
+
+D. Control Cards
+
+Analyze the actual control card formats present in the repository.
+
+Identify:
+
+- DB2 RUN PROGRAM statements.
+- Referenced COBOL programs.
+- Other recognizable execution instructions.
+- Dataset references.
+- Control card relationships.
+
+Validate the previously discovered 562 DB2 RUN PROGRAM relationships and their 560 resolved targets.
+
+Do not hardcode these counts into the application.
+
+E. Copybooks
+
+Identify:
+
+- COPY dependencies.
+- Record structures.
+- Level numbers.
+- Field names.
+- PIC clauses.
+- USAGE clauses.
+- REDEFINES.
+- OCCURS.
+- COMP and COMP-3 fields.
+- Group and elementary items.
+
+Where possible, establish which COBOL programs consume each copybook.
+
+F. DCLGEN / SQL Includes
+
+Identify:
+
+- SQL INCLUDE references.
+- Table names.
+- Column names where available.
+- Data types.
+- Nullability.
+- Primary keys and other constraints when present.
+- Associated DB2 table definitions.
+
+Do not assume that a DCLGEN is a complete database schema.
+
+G. Other artifacts
+
+For Assembler, NDM and Linkcards:
+
+- Identify their structure.
+- Extract recognizable references.
+- Record supported metadata.
+- Identify limitations.
+
+Avoid claiming complete semantic understanding where the analyzer only performs partial extraction.
+
+5. Relationship model
+
+Build a normalized relationship model.
+
+At minimum, support these relationship types:
+
+- JOB_EXECUTES_PROC
+- JOB_EXECUTES_PROGRAM
+- PROC_EXECUTES_PROGRAM
+- PROC_REFERENCES_PROC
+- CONTROL_CARD_RUNS_PROGRAM
+- PROGRAM_CALLS_PROGRAM
+- PROGRAM_INCLUDES_COPYBOOK
+- PROGRAM_INCLUDES_DCLGEN
+- PROGRAM_ACCESSES_TABLE
+- PROGRAM_READS_DATASET
+- PROGRAM_WRITES_DATASET
+- JOB_REFERENCES_DATASET
+- PROC_REFERENCES_DATASET
+
+Extend the model when additional evidence supports more relationships.
+
+Every relationship must include:
+
+- Source component.
+- Target component, if resolved.
+- Relationship type.
+- Evidence artifact.
+- Source line or statement location.
+- Resolution status.
+- Extraction method.
+- Parser confidence or certainty classification.
+
+Do not infer relationships merely because filenames are similar.
+
+6. SQLite metadata repository
+
+Design and implement a normalized SQLite schema.
+
+Consider the following logical entities:
+
+1. Applications
+2. Artifacts
+3. Components
+4. Relationships
+5. Evidence
+6. Unresolved References
+7. Analysis Runs
+8. Parser Results
+
+Use appropriate primary keys, foreign keys and indexes.
+
+Requirements:
+
+- Maintain repository-relative artifact paths.
+- Store artifact types.
+- Store file hashes for change detection.
+- Record artifact size and analysis timestamps.
+- Support multiple application repositories.
+- Preserve the distinction between artifact files and logical components.
+- Avoid duplicate component and relationship records.
+- Record the analyzer and its version.
+- Support re-analysis without corrupting historical evidence.
+
+Keep the schema extensible.
+
+7. Evidence traceability
+
+Every extracted relationship and material finding must be traceable to the original source.
+
+Store:
+
+- Artifact path.
+- Line number or line range.
+- Statement or reference type.
+- Extraction method.
+- Resolution status.
+
+Where appropriate, retain a short source excerpt for local inspection.
+
+The original source files must remain unchanged.
+
+Do not present AI-generated interpretations as verified source facts.
+
+8. Data-quality and coverage reporting
+
+Produce a repository analysis report.
+
+It must include:
+
+- Total files discovered.
+- Artifact counts by type.
+- Successfully analyzed artifacts.
+- Partially analyzed artifacts.
+- Unsupported artifacts.
+- Parsing failures.
+- Discovered components.
+- Discovered relationships by type.
+- Resolved references.
+- Unresolved references.
+- Missing referenced artifacts.
+
+Also report coverage separately for each artifact type.
+
+Do not equate file discovery with successful semantic analysis.
+
+Preserve the initial Phase 0 inventory as a baseline and compare actual Phase 1 results against it.
+
+Investigate any discrepancies rather than forcing the results to match the initial counts.
+
+9. Initial user interface
+
+For this phase, implement a functional and simple interface.
+
+Provide:
+
+- Repository analysis overview.
+- Artifact inventory.
+- Artifact type filtering.
+- Search by artifact name.
+- Artifact details.
+- Extracted metadata.
+- Relationship listing.
+- Evidence references.
+- Unresolved references.
+- Parser warnings.
+
+Do not spend time on elaborate styling or advanced visualizations yet.
+
+The interface must display actual analysis results from SQLite, not hardcoded sample data.
+
+10. Technical constraints
+
+- Prefer Python standard library.
+- Use SQLite.
+- Prefer lightweight HTML, CSS and JavaScript.
+- Avoid unnecessary dependencies.
+- Do not require external services for core analysis.
+- Do not introduce an LLM dependency.
+- Do not hardcode repository paths.
+- Make repository selection configurable.
+- Never modify original source artifacts.
+- Never expose credentials.
+- Do not send repository contents to external services.
+
+11. Testing and validation
+
+Build tests using actual repository observations.
+
+Validate:
+
+1. Artifact inventory against Phase 0.
+2. COBOL program identification.
+3. JCL job and PROC identification.
+4. DB2 RUN PROGRAM extraction.
+5. Resolution of the 560 previously identified COBOL targets.
+6. Identification of the two unresolved relationships.
+7. Copybook references.
+8. DB2 table references.
+9. Source line traceability.
+10. Duplicate prevention.
+11. Repeatable analysis runs.
+
+The expected counts are validation references, not hardcoded outcomes.
+
+12. Acceptance criteria
+
+Phase 1 is complete only when:
+
+- The repository can be scanned without modifying source files.
+- All supported artifacts are inventoried.
+- Structured metadata is persisted in SQLite.
+- Relationships are discoverable and traceable.
+- Unresolved references are reported.
+- Parsing limitations are visible.
+- The interface displays actual repository results.
+- The analysis can be repeated.
+- The framework can accept another application repository.
+- The implementation has meaningful validation tests.
+
+13. Execution instructions
+
+Before implementation:
+
+1. Review the Phase 0 architecture proposal.
+2. Identify any design conflicts.
+3. Explain the proposed metadata schema.
+4. Confirm the implementation approach.
+
+Then implement Phase 1 incrementally.
+
+Do not attempt to implement all analyzers in one giant code-generation step.
+
+Validate each analyzer before proceeding to the next.
+
+At completion, provide:
+
+- Implemented features.
+- Database schema.
+- Artifact coverage report.
+- Relationship statistics.
+- Test results.
+- Known limitations.
+- Recommended next steps for Phase 2.
+
+The objective is a working, reusable engineering foundation, not a mock demonstration.
