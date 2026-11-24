@@ -424,3 +424,35 @@ At completion, provide:
 - Recommended next steps for Phase 2.
 
 The objective is a working, reusable engineering foundation, not a mock demonstration.
+
+Before proceeding with Phase 1 implementation, I need to establish the correct workspace boundaries.
+
+Currently, VS Code has the organizer-provided Mainframe sample repository open from the Downloads folder, specifically the Metadata directory.
+
+IMPORTANT:
+
+1. The Downloads/Metadata directory is the ORIGINAL INPUT REPOSITORY. Treat it as strictly READ-ONLY.
+
+2. Do not create, modify, delete or generate any project files inside Downloads or Metadata.
+
+3. Create a separate, permanent development workspace under the current Windows user's home directory:
+   
+   C:\Users<CURRENT_USER>\M20-Modernization-Utility
+
+4. All application source code, Python scripts, SQLite databases, configuration files, reports, documentation, tests and generated outputs must reside inside M20-Modernization-Utility.
+
+5. Configure the application to read the original Mainframe repository from its existing Downloads/Metadata location.
+
+6. Do not copy or move the original repository into the development workspace unless explicitly instructed.
+
+7. Make the input repository path configurable rather than hardcoding it throughout the application.
+
+8. Ensure all generated reports and SQLite database files are stored in the development workspace, never in Downloads.
+
+9. Do not modify the VS Code workspace or repository contents without first confirming the proposed workspace configuration.
+
+First, inspect the current workspace and determine the actual Windows user's home directory and absolute path to the Metadata input folder.
+
+Then propose the exact directory structure and workspace configuration.
+
+Do not start Phase 1 implementation until this configuration is established and confirmed.
